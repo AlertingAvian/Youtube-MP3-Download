@@ -1,10 +1,9 @@
 import PySimpleGUI as sg
-from time import sleep
 
 sg.change_look_and_feel('DefaultNoMoreNagging')
 
 frame1_layout = [
-                [sg.Image(filename='image.png',size=(None,None))]
+                [sg.Image(filename='image.png')]
                 ]
 
 layout = [
