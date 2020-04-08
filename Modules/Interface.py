@@ -3,12 +3,20 @@ import PySimpleGUI as sg
 sg.change_look_and_feel('DefaultNoMoreNagging')
 
 frame1_layout = [
-                [sg.Image(filename='image.png')]
+                
                 ]
 
+tab1_frame_layout = [ # Tabs must first be in a frame and then a tab layout before they can be included in the window
+                [sg.Input(),sg.Submit()],
+                [sg.Frame('Results',frame1_layout,'red',visible=False)]
+                ]
+
+tab1_layout = [ 
+            [sg.Frame('Search for a Video',tab1_frame_layout,title_color='red')]
+            ]
+
 layout = [
-            [sg.Input(),sg.Submit()],
-            [sg.Frame('Results',frame1_layout,'red')],
+            [sg.TabGroup([[sg.Tab('Search',tab1_layout,title_color='red')]])],
             [sg.Exit()]
             ]
 

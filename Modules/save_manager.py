@@ -1,5 +1,8 @@
-from PIL import Image
+import urllib.request
 import pathlib
+from PIL import Image
+from uuid import uuid4
+from time import time
 
 class save_manager(object):
     def __init__(self):
@@ -25,11 +28,38 @@ class save_manager(object):
                     return e
                 else:
                     print(f'[SUCCESS] \'{path}\' Created.')
-                    return True
+        return True
 
     def save_img(self, img_url):
+        im = Image.open(urllib.request.urlopen(img_url))
+        isn = self.isp.joinpath(pathlib.Path(f'thumbnail_{uuid4()}.png'))
+        try:
+            im.save(isn)
+        except Exception as e:
+            return e
+        else:
+            return (True, isn)
+
+    def save_log(self, e):
+        log = open(f'error_{int(time())}.log','w+')
+        log.write(e)
+        log.close()
+
+    def save_other(self, file, path):
+        # This is probably not going to be used. Currently just a place holder.
         pass
 
-    def save_log(self):
-        pass
-        
+    def rm_save(self, path: 'WindowsPath'):
+        if not isinstance(path, pathlib.WindowsPath):
+            raise TypeError(f'Argument was of type {type(path)}, but must be of type pathlib.WindowsPath')
+        if not path.exists():
+            raise FileNotFoundError(f'The system cannot find the path specified: {path}')
+        check = input('ARE YOU SURE (y/n): ') # this will be removed once the UI is made
+        if check != 'y':
+            print('[WARN] STOPPING')
+            raise SystemExit
+        for file in path.iterdir(): 
+            file.unlink()
+            print(f'[INFO] Removed {file}')
+        path.rmdir()
+        print(f'[INFO] Removed {path}')
