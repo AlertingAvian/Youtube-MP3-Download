@@ -1,3 +1,8 @@
+"""
+Copyright (C) 2020 Patrick Maloney
+
+"""
+
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
